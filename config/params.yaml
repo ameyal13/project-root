@@ -1,0 +1,13 @@
+data:
+  test_size: 0.2
+  random_state: 42
+  raw_path: "data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv"
+
+model:
+  name: "RandomForest"
+  n_estimators: 100
+  max_depth: 10
+  C: 1.0
+
+paths:
+  model_save: "models/model.pkl"
