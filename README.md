@@ -145,6 +145,115 @@ project-root/
 └── README.md
 ```
 
-## Notas
+## API de Predicción
 
-Este proyecto no incluye una API. La ejecución disponible es por línea de comandos mediante `src.main` y `src.predict`.
+El proyecto incluye una API REST construida con FastAPI.
+
+### Iniciar el servidor
+
+```bash
+uvicorn src.api:app --reload
+```
+
+El servidor queda disponible en `http://127.0.0.1:8000`.
+
+La documentación interactiva (Swagger UI) estará en `http://127.0.0.1:8000/docs`.
+
+> Asegúrate de haber entrenado el modelo primero con `python -m src.main`.
+
+### Endpoint: `POST /predict`
+
+Recibe los features de un cliente en JSON y devuelve la predicción.
+
+**Ejemplo con `curl`:**
+
+```bash
+curl -X POST "http://127.0.0.1:8000/predict" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "gender": 1,
+       "SeniorCitizen": 0,
+       "Partner": 1,
+       "Dependents_Yes": 0,
+       "tenure": 12,
+       "PhoneService_Yes": 1,
+       "MultipleLines_No_phone_service": 0,
+       "MultipleLines_Yes": 0,
+       "InternetService_Fiber_optic": 1,
+       "InternetService_No": 0,
+       "OnlineSecurity_No_internet_service": 0,
+       "OnlineSecurity_Yes": 0,
+       "OnlineBackup_No_internet_service": 0,
+       "OnlineBackup_Yes": 1,
+       "DeviceProtection_No_internet_service": 0,
+       "DeviceProtection_Yes": 0,
+       "TechSupport_No_internet_service": 0,
+       "TechSupport_Yes": 0,
+       "StreamingTV_No_internet_service": 0,
+       "StreamingTV_Yes": 1,
+       "StreamingMovies_No_internet_service": 0,
+       "StreamingMovies_Yes": 1,
+       "Contract_One_year": 0,
+       "Contract_Two_year": 0,
+       "PaperlessBilling_Yes": 1,
+       "PaymentMethod_Credit_card_automatic": 0,
+       "PaymentMethod_Electronic_check": 1,
+       "PaymentMethod_Mailed_check": 0,
+       "MonthlyCharges": 70.5,
+       "TotalCharges": 846.0
+     }'
+```
+
+**Ejemplo con `requests` (Python):**
+
+```python
+import requests
+
+url = "http://127.0.0.1:8000/predict"
+
+customer = {
+    "gender": 1,
+    "SeniorCitizen": 0,
+    "Partner": 1,
+    "Dependents_Yes": 0,
+    "tenure": 12,
+    "PhoneService_Yes": 1,
+    "MultipleLines_No_phone_service": 0,
+    "MultipleLines_Yes": 0,
+    "InternetService_Fiber_optic": 1,
+    "InternetService_No": 0,
+    "OnlineSecurity_No_internet_service": 0,
+    "OnlineSecurity_Yes": 0,
+    "OnlineBackup_No_internet_service": 0,
+    "OnlineBackup_Yes": 1,
+    "DeviceProtection_No_internet_service": 0,
+    "DeviceProtection_Yes": 0,
+    "TechSupport_No_internet_service": 0,
+    "TechSupport_Yes": 0,
+    "StreamingTV_No_internet_service": 0,
+    "StreamingTV_Yes": 1,
+    "StreamingMovies_No_internet_service": 0,
+    "StreamingMovies_Yes": 1,
+    "Contract_One_year": 0,
+    "Contract_Two_year": 0,
+    "PaperlessBilling_Yes": 1,
+    "PaymentMethod_Credit_card_automatic": 0,
+    "PaymentMethod_Electronic_check": 1,
+    "PaymentMethod_Mailed_check": 0,
+    "MonthlyCharges": 70.5,
+    "TotalCharges": 846.0
+}
+
+response = requests.post(url, json=customer)
+print(response.json())
+```
+
+**Respuesta esperada:**
+
+```json
+{
+  "prediction": 1,
+  "label": "CHURN (se va)",
+  "churn_probability": 0.6235
+}
+```
