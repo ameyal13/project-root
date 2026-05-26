@@ -257,3 +257,11 @@ print(response.json())
   "churn_probability": 0.6235
 }
 ```
+
+## Equipo
+
+| Nombre | Rol | Contribución |
+|--------|-----|--------------|
+| David Ameyal Chavez Duque | MLOps Engineer | Configuración del pipeline principal (main.py, params.yaml), script de predicción (predict.py) y pruebas unitarias (test_pipeline.py) |
+| Uriel Alejandro Hernandez Delgado | Data Engineer | Carga y preprocesamiento del dataset (data_loader.py) |
+| Jose Maria Zavala Cervantes | ML Engineer | Entrenamiento y guardado del modelo, fábrica de modelos RandomForest y LogisticRegression (trainer_model.py) |
