@@ -265,3 +265,12 @@ print(response.json())
 | David Ameyal Chavez Duque | MLOps Engineer | Configuración del pipeline principal (main.py, params.yaml), script de predicción (predict.py) y pruebas unitarias (test_pipeline.py) |
 | Uriel Alejandro Hernandez Delgado | Data Engineer | Carga y preprocesamiento del dataset (data_loader.py) |
 | Jose Maria Zavala Cervantes | ML Engineer | Entrenamiento y guardado del modelo, fábrica de modelos RandomForest y LogisticRegression (trainer_model.py) |
+
+
+## Desafíos de integración
+
+| Nombre | Rol | Desafío | Solución |
+|--------|-----|---------|----------|
+| David Ameyal Chavez Duque | MLOps Engineer | Al correr `python -m src.main` el pipeline fallaba porque los imports entre módulos no se reconocían | Se corrigió la estructura de imports usando `from src.data_loader import ...` y se verificó que existiera `__init__.py` en la carpeta `src/` |
+| Uriel Alejandro Hernandez Delgado | Data Engineer | La columna `TotalCharges` tenía espacios vacíos que causaban errores al convertirla a numérico | Se usó `pd.to_numeric(..., errors='coerce')` para convertir los espacios a NaN y luego se imputó con la mediana |
+| Jose Maria Zavala Cervantes | ML Engineer | Al cambiar el modelo en `params.yaml` de RandomForest a LogisticRegression el pipeline tronaba porque no leía el parámetro `C` | Se agregó el parámetro `C` al `params.yaml` y se aseguró que la fábrica de modelos lo leyera desde `config['model']['C']` |
